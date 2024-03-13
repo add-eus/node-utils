@@ -8,9 +8,6 @@
 import type { QueryDocumentSnapshot } from "firebase-admin/firestore";
 import type { EventContext } from "firebase-functions";
 import { https, region } from "firebase-functions";
-import moment from "moment-with-locales-es6";
-
-moment.locale("fr");
 
 export type UpdateCallback = (
     after: QueryDocumentSnapshot,
@@ -198,17 +195,3 @@ export function getCalls() {
 
 const cloudFunctionsNameFromPath = (path: string) =>
     path.replaceAll("{", "").replaceAll("}", "").split("/").join("_");
-
-export const serverUrl =
-    process.env.FUNCTIONS_EMULATOR !== undefined
-        ? "http://localhost:8013/jarveat/europe-west1/"
-        : process.env.GCLOUD_PROJECT === "jarveat"
-          ? "https://europe-west1-jarveat.cloudfunctions.net/"
-          : "https://europe-west1-addeus-5bc9f.cloudfunctions.net/";
-
-export const clientAddeusUrl =
-    process.env.FUNCTIONS_EMULATOR !== undefined
-        ? "http://localhost:8018"
-        : process.env.GCLOUD_PROJECT === "jarveat"
-          ? "https://jarveat-partner--integration-0i5j4osv.web.app"
-          : "https://app.addeus.ai";

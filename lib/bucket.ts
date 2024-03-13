@@ -20,9 +20,9 @@ export function bucket(bucketName: string) {
     return storage.bucket(bucketName);
 }
 
-export async function uploadToFirebaseFromURL(url: string): Promise<string> {
+export async function uploadToFirebaseFromURL(url: string, basePath: string = ''): Promise<string> {
     const bucket = firebase.storage().bucket();
-    const filename = `post/importedMedias/${uuid()}`;
+    const filename = `${basePath}/${uuid()}`;
     const file = bucket.file(filename);
     const uploadStream = file.createWriteStream();
 
@@ -35,3 +35,19 @@ export async function uploadToFirebaseFromURL(url: string): Promise<string> {
     const [metadata] = await file.getMetadata();
     return metadata.name;
 }
+
+
+export const getPublicUrl = async (filename: string): Promise<string> => {
+    if (process.env.FUNCTIONS_EMULATOR !== undefined) {
+        return `https://picsum.photos/500/500?random`;
+    }
+    const urlResponse = await firebase
+        .storage()
+        .bucket()
+        .file(filename)
+        .getSignedUrl({
+            action: "read",
+            expires: Date.now() + 5 * 60 * 1000,
+        });
+    return urlResponse[0];
+};
