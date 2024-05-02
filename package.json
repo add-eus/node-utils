@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/add-eus/node-utils.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
